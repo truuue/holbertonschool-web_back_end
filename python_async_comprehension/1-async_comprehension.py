@@ -7,4 +7,4 @@ from typing import List
 
 async def async_comprehension() -> List[float]:
     """collect 10 random numbers using an async"""
-    return (_ async for _ in async_generator())
+    return [_ async for _ in async_generator()]
