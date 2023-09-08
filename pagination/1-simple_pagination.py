@@ -32,4 +32,5 @@ class Server:
         """get_page function"""
         assert (isinstance(page, int) and isinstance(page_size, int)
                 and page > 0 and page_size > 0)
-        return self.dataset()[index_range(page, page_size)[0]: index_range(page, page_size)[1]]
+        return self.dataset()[
+            index_range(page, page_size)[0]: index_range(page, page_size)[1]]
