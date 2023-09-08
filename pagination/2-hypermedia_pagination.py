@@ -39,8 +39,8 @@ class Server:
         """get_hyper function"""
         data = self.get_page(page, page_size)
         total = math.ceil(len(self.__dataset) / page_size)
-        prev_page = (page - 1, page_size) if page > 1 else None
-        next_page = (page + 1, page_size) if page < total else None
+        prev_page = page - 1 if page > 1 else None
+        next_page = page + 1 if page < total else None
         return {
             'page_size': len(data),
             'page': page,
