@@ -31,6 +31,5 @@ class Server:
     def get_page(self, page: int = 1, page_size: int = 10) -> List[List]:
         """get_page function"""
         assert (isinstance(page, int) and isinstance(page_size, int)
-        and page > 0 and page_size > 0)
-        self.dataset()
-        return [index_range(page, page_size)]
+                and page > 0 and page_size > 0)
+        return self.dataset()[index_range(page, page_size)[0]: index_range(page, page_size)[1]]
