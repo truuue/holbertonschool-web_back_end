@@ -1,9 +1,16 @@
 export default function cleanSet(set, startString) {
-  const newSet = new Set();
-  set.forEach((value) => {
-    if (value.startsWith(startString)) {
-      newSet.add(value.slice(startString.length));
+  let myString = '';
+  if (startString === '' || typeof startString !== 'string') {
+    return myString;
+  }
+
+  for (const value of set.values()) {
+    if (value && value.startsWith(startString)) {
+      myString += `${value.slice(startString.length)}-`;
     }
-  });
-  return newSet;
+  }
+  if (myString.endsWith('-')) {
+    myString = myString.slice(0, -1);
+  }
+  return myString;
 }

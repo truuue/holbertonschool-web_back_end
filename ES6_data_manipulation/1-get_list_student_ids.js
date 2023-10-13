@@ -1,3 +1,7 @@
-export default function getListStudentsIds() {
-  return [1, 2, 5];
+export default function getListStudentIds(arrayOfObjects) {
+  let arrayOfIds = [];
+  if (arrayOfObjects instanceof Array) {
+    arrayOfIds = arrayOfObjects.map((object) => object.id);
+  }
+  return arrayOfIds;
 }
