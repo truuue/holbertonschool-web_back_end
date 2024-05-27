@@ -17,7 +17,7 @@ class LIFOCache(BaseCaching):
         if key is None or item is None:
             return
 
-        if len(self.cache_data) > BaseCaching.MAX_ITEMS:
+        if len(self.cache_data) >= BaseCaching.MAX_ITEMS:
             discarded_key = self.queue.pop()
             del self.cache_data[discarded_key]
             print(f"DISCARD: {discarded_key}")
