@@ -5,6 +5,7 @@ from base_caching import BaseCaching
 
 class FIFOCache(BaseCaching):
     """FIFOCache class that inherits from BaseCaching"""
+
     def __init__(self):
         super().__init__()
         self.queue = []
