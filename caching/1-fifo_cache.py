@@ -15,7 +15,7 @@ class FIFOCache(BaseCaching):
         """put the item in key cache"""
         if key and item:
             if len(self.cache_data) > BaseCaching.MAX_ITEMS:
-                first_key = next(iter(self.cache_data))
+                first_key = self.queue.pop(0)
                 del self.cache_data[first_key]
                 print(f"DISCARD: {first_key}\n")
             self.queue.append(key)
