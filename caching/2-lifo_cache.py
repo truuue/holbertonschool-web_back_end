@@ -21,8 +21,6 @@ class LIFOCache(BaseCaching):
             discarded_key = self.queue.pop()
             del self.cache_data[discarded_key]
             print(f"DISCARD: {discarded_key}")
-            self.cache_data[key] = item
-            self.queue.append(key)
 
         self.cache_data[key] = item
         self.queue.append(key)
