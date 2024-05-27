@@ -6,9 +6,6 @@ from base_caching import BaseCaching
 
 class BasicCache(BaseCaching):
 
-    def __init__(self):
-        self.cache_data = {}
-
     def put(self, key, item):
         if key is not None or item is not None:
             self.cache_data[key] = item
