@@ -17,14 +17,14 @@ class LRUCache(BaseCaching):
         if key is None or item is None:
             return
 
-        if len(self.cache_data) >= BaseCaching.MAX_ITEMS:
-            if key in self.cache_data:
-                self.queue.remove(key)
-            elif len(self.cache_data) >= BaseCaching.MAX_ITEMS:
-                discard_key = self.queue.pop(0)
-                del self.cache_data[discard_key]
-                print("DISCARD:", discard_key)
+        if key in self.cache_data:
+            self.queue.remove(key)
+        elif len(self.cache_data) >= BaseCaching.MAX_ITEMS:
+            discard_key = self.queue.pop(0)
+            del self.cache_data[discard_key]
+            print("DISCARD:", discard_key)
 
+        self.queue.append(key)
         self.cache_data[key] = item
 
     def get(self, key):
