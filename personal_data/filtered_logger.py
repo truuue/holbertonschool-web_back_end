@@ -40,3 +40,21 @@ def filter_datum(
     pattern = '|'.join([f"{field}=.*?(?={separator}|$)" for field in fields])
     return re.sub(
         pattern, lambda m: f"{m.group().split('=')[0]}={redaction}", message)
+
+
+def get_logger():
+    """ Get logger function """
+    logger = logging.getLogger("user_data")
+    logger.setLevel(logging.INFO)
+    logger.propagate = False
+
+    formatter = RedactingFormatter(PII_FIELDS)
+    stream_handler = logging.StreamHandler()
+    stream_handler.setFormatter(formatter)
+
+    logger.addHandler(stream_handler)
+
+    return logger
+
+
+PII_FIELDS = ("name", "email", "phone_number", "address", "credit_card_number")
