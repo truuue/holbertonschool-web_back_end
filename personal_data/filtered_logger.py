@@ -6,16 +6,7 @@ from typing import List
 
 def filter_datum(fields: List[str], redaction: str, message: str,
                  separator: str) -> str:
-    """
-    Filter the message by replacing the words in fields with the redaction
-    Args:
-        fields: a list of fields to replace in the message
-        redaction: a string representing the redacted message
-        message: a string representing the log line
-        separator: a string representing the separator of fields
-    Returns:
-        a string representing the log line
-    """
+    """Filter the message"""
     for field in fields:
         pattern = rf'({field}=)([^{separator}]*)'
         message = re.sub(pattern, rf'\1{redaction}', message)
