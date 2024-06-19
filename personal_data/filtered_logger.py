@@ -1,4 +1,4 @@
-#!/user/bin/python3
+#!/usr/bin/env python3
 """ filter_datum module """
 import re
 from typing import List
