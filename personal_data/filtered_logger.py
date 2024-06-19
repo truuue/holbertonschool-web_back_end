@@ -1,4 +1,5 @@
 #!/user/bin/python3
+""" filter_datum module """
 import re
 from typing import List
 
