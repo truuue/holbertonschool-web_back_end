@@ -1,4 +1,6 @@
 #!/user/bin/python3
+import re
+
 
 def filter_datum(fields, redaction, message, separator):
     """
@@ -11,6 +13,5 @@ def filter_datum(fields, redaction, message, separator):
     Returns:
         a string representing the log line
     """
-    for field in fields:
-        message = message.replace(field + separator, redaction + separator)
-    return message
+    pattern = '|'.join([f"{field}=[^\\{separator}]*" for field in fields])
+    return re.sub(pattern, f"{redaction}", message)
