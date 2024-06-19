@@ -4,10 +4,10 @@ import re
 from typing import List
 
 
-def filter_datum(fields: List[str], redaction: str, message: str,
-                 separator: str) -> str:
-    """Filter the message"""
-    for field in fields:
-        pattern = rf'({field}=)([^{separator}]*)'
-        message = re.sub(pattern, rf'\1{redaction}', message)
-    return message
+def filter_datum(
+        fields: List[str],
+        redaction: str, message: str, separator: str) -> str:
+    """ Returns the log message obfuscated """
+    pattern = '|'.join([f"{field}=.*?(?={separator}|$)" for field in fields])
+    return re.sub(
+        pattern, lambda m: f"{m.group().split('=')[0]}={redaction}", message)
