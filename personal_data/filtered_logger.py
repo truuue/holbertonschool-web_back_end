@@ -16,7 +16,9 @@ def filter_datum(fields: List[str], redaction: str,
     Returns:
         a string representing the log line
     """
-    for f in fields:
-        message = re.sub(f'{f}=.*?{separator}',
-                         f'{f}={redaction}{separator}', message)
+    textSplit = message.split(separator)
+    for field in fields:
+        for info in textSplit:
+            if re.search(field, info):
+                message = re.sub(info.split("=")[1], redaction, message)
     return message
