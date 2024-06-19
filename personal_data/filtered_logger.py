@@ -4,8 +4,8 @@ import re
 from typing import List
 
 
-def filter_datum(fields: List[str], redaction: str,
-                 message: str, separator: str) -> str:
+def filter_datum(fields: List[str], redaction: str, message: str,
+                 separator: str) -> str:
     """
     Filter the message by replacing the words in fields with the redaction
     Args:
@@ -16,9 +16,7 @@ def filter_datum(fields: List[str], redaction: str,
     Returns:
         a string representing the log line
     """
-    textSplit = message.split(separator)
     for field in fields:
-        for info in textSplit:
-            if re.search(field, info):
-                message = re.sub(info.split("=")[1], redaction, message)
+        pattern = rf'({field}=)([^{separator}]*)'
+        message = re.sub(pattern, rf'\1{redaction}', message)
     return message
