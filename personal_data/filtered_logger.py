@@ -1,4 +1,3 @@
-#!/user/bin/python3
 """ filter_datum module """
 import re
 from typing import List
@@ -15,6 +14,6 @@ def filter_datum(fields: List[str], redaction: str, message: str, separator: str
     Returns:
         a string representing the log line
     """
-    pattern = '|'.join([f"{field}=[^\\{separator}]*" for field in fields])
-    return re.sub(
-        pattern, lambda m: f"{m.group(0).split('=')[0]}={redaction}", message)
+    for field in fields:
+        message = message.replace(field + separator, redaction + separator)
+    return message
