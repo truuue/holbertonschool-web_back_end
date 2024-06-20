@@ -11,12 +11,11 @@ class Auth:
         """ Method for validating if endpoint requires auth """
         if path.endswith('/'):
             path = path[:-1]
-
         if path is None or excluded_paths is None or len(excluded_paths) == 0:
             return True
-
-        if path in excluded_paths:
-            return False
+        for excluded_path in excluded_paths:
+            if path.startswith(excluded_path):
+                return False
         return True
 
     def authorization_header(self, request=None) -> str:
