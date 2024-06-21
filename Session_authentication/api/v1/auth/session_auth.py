@@ -5,7 +5,6 @@ Route module for the API
 from api.v1.auth.auth import Auth
 from models.user import User
 import uuid
-from api.v1.auth.session_auth import session_cookie
 
 
 class SessionAuth(Auth):
