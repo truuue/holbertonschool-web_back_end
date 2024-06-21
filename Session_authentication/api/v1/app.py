@@ -45,7 +45,9 @@ def forbidden(error) -> str:
 
 @app.before_request
 def before_request():
-    """ Before request """
+    """
+    checks authentication before each request, except for specific routes.
+    """
     if auth is None:
         return
 
@@ -57,13 +59,14 @@ def before_request():
     if auth.require_auth(request.path, exclude_path) is not True:
         return
 
-    if auth.authorization_header(
-            request) is None and auth.session_cookie(request) is None:
+    if auth.authorization_header(request) is None \
+            and auth.session_cookie(request) is None:
         return abort(401)
 
-    request.current_user = auth.current_user(request)
     if auth.current_user(request) is None:
         return abort(403)
+
+    request.current_user = auth.current_user(request)
 
 
 if __name__ == "__main__":
