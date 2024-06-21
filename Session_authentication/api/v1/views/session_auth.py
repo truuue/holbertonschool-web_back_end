@@ -2,10 +2,11 @@
 """
 Route module for the API
 """
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, abort
 from api.v1.views import app_views
 from models.user import User
 import os
+from api.v1.app import auth
 
 app = Flask(__name__)
 
@@ -29,7 +30,6 @@ def auth_session_login():
     if not current_user.is_valid_password(password):
         return jsonify({"error": "wrong password"}), 401
 
-    from api.v1.app import auth
     session = auth.create_session(current_user.id)
     SESSION_NAME = os.getenv('SESSION_NAME')
 
@@ -37,3 +37,11 @@ def auth_session_login():
     setCookie.set_cookie(SESSION_NAME, session)
 
     return setCookie
+
+
+@app_views.route('/auth_session/logout', methods=['DELETE'], strict_slashes=False)
+def auth_session_logout():
+    """ auth sessions logout route"""
+    if not auth.destroy_session(request):
+        abort(404)
+    return jsonify({})

@@ -5,6 +5,7 @@ Route module for the API
 from api.v1.auth.auth import Auth
 from models.user import User
 import uuid
+from api.v1.auth.session_auth import session_cookie
 
 
 class SessionAuth(Auth):
@@ -36,3 +37,14 @@ class SessionAuth(Auth):
             return None
         user = User.get(user_id)
         return user
+
+    def destroy_session(self, request=None):
+        """ Deletes the user session / logout """
+        if request is None or self.session_cookie(request) not in request.cookies:
+            return False
+        session_id = self.session_cookie(request)
+        user_id = self.user_id_for_session_id(session_id)
+        if user_id is None:
+            return False
+        del self.user_id_by_session_id[session_id]
+        return True
