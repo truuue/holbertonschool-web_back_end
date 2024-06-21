@@ -39,7 +39,8 @@ def auth_session_login():
     return setCookie
 
 
-@app_views.route('/auth_session/logout', methods=['DELETE'], strict_slashes=False)
+@app_views.route(
+    '/auth_session/logout', methods=['DELETE'], strict_slashes=False)
 def auth_session_logout():
     """ auth sessions logout route"""
     if not auth.destroy_session(request):
