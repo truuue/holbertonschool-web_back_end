@@ -10,8 +10,8 @@ class User(Base):
     """The User class for the user_authentication_service."""
     __tablename__ = 'users'
 
-    id = Column(Integer, primary_key=True)
-    email = Column(String, nullable=False)
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    email = Column(String, nullable=False, unique=True)
     hashed_password = Column(String, nullable=False)
     session_id = Column(String, nullable=True)
     reset_token = Column(String, nullable=True)
