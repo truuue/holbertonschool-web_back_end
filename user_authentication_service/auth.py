@@ -36,10 +36,20 @@ class Auth:
             return self._db.add_user(email, _hash_password(password))
 
     def valid_login(self, email: str, password: str) -> bool:
-        """Check if the login credentials are valid"""
+        """ Check if the login credentials are valid """
         try:
             user = self._db.find_user_by(email=email)
             hashed_password = user.hashed_password
             return bcrypt.checkpw(password.encode(), hashed_password)
         except NoResultFound:
             return False
+
+    def create_session(self, email: str) -> str:
+        """ create_session: returns the session ID as a string """
+        try:
+            user = self._db.find_user_by(email=email)
+            session_id = _generate_uuid()
+            self._db.update_user(user.id, session_id=session_id)
+            return session_id
+        except NoResultFound:
+            return None
