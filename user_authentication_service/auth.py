@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Hash password module"""
+""" Hash password module """
 import bcrypt
 
 
-def _hash_password(password) -> str:
+def _hash_password(password: str) -> bytes:
     """ Module that hash password """
     salt = bcrypt.gensalt()
 
