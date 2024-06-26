@@ -10,10 +10,14 @@ from sqlalchemy.orm.exc import NoResultFound
 def _hash_password(password: str) -> bytes:
     """ Module that hash password """
     salt = bcrypt.gensalt()
-
     hashed_password = bcrypt.hashpw(password.encode(), salt)
 
     return hashed_password
+
+
+def _generate_uuid() -> str:
+    """ Generate a new UUID """
+    return str(uuid.uuid4())
 
 
 class Auth:
@@ -39,7 +43,3 @@ class Auth:
             return bcrypt.checkpw(password.encode(), hashed_password)
         except NoResultFound:
             return False
-
-    def _generate_uuid() -> str:
-        """ Generate a new UUID """
-        return str(uuid.uuid4())
