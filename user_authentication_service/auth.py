@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """ Hash password module """
 import bcrypt
+import uuid
 from db import DB
 from user import User
 from sqlalchemy.orm.exc import NoResultFound
@@ -38,3 +39,7 @@ class Auth:
             return bcrypt.checkpw(password.encode(), hashed_password)
         except NoResultFound:
             return False
+
+    def _generate_uuid():
+        """ Generate a new UUID """
+        return str(uuid.uuid4())
