@@ -51,39 +51,47 @@ def login():
 
 @app.route('/sessions', methods=['DELETE'], strict_slashes=False)
 def logout():
-    """ DELETE /sessions"""
+    """ Log out """
     session_id = request.cookies.get('session_id')
     user = AUTH.get_user_from_session_id(session_id)
-    if not session_id or not user:
+    if session_id is None or user is None:
         abort(403)
-    else:
-        AUTH.destroy_session(user.id)
-        return redirect('/')
+    AUTH.destroy_session(user.id)
+    return redirect('/')
 
 
-@app.route('/profile', methods=['GET'])
+@app.route('/profile', methods=['GET'], strict_slashes=False)
 def profile():
-    """ GET /profile"""
+    """ User profile """
     session_id = request.cookies.get('session_id')
     user = AUTH.get_user_from_session_id(session_id)
-    if not session_id or not user:
+    if session_id is None or user is None:
         abort(403)
-    else:
-        return jsonify({"email": user.email}), 200
+    return jsonify({"email": user.email}), 200
 
 
-@app.route('/reset_password', methods=['PUT'])
-def update_password():
-    """ PUT /reset_password """
-    email = request.form.get('email')
-    reset_token = request.form.get('reset_token')
-    new_password = request.form.get('new_password')
-
+@app.route('/reset_password', methods=['POST'], strict_slashes=False)
+def get_reset_password_token():
+    """ generate a token and respond with a 200 HTTP status """
     try:
-        AUTH.update_password(reset_token, email, new_password)
-        return jsonify({"email": email, "message": "Password updated"}), 200
+        email = request.form.get('email')
+        token = AUTH.get_reset_password_token(email)
+        return jsonify({"email": email, "reset_token": token}), 200
     except ValueError:
         abort(403)
+
+
+@app.route('/reset_password', methods=['PUT'], strict_slashes=False)
+def update_password():
+    """ Update password  """
+    email = request.form.get('email')
+    token = request.form.get('reset_token')
+    password = request.form.get('new_password')
+    try:
+        AUTH.update_password(token, password)
+    except Exception:
+        abort(403)
+    return jsonify({"email": email, "message": "Password updated"}), 200
 
 
 if __name__ == "__main__":
