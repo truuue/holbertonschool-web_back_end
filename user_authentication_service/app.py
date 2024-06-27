@@ -72,24 +72,5 @@ def profile():
         return jsonify({"email": user.email}), 200
 
 
-@app.route("/reset_password", methods=["POST"], strict_slashes=False)
-def update_password():
-    """ Update user's password using reset token """
-    reset_token = request.form.get('reset_token')
-    password = request.form.get('password')
-    if not reset_token or not password:
-        abort(403)
-    try:
-        user = AUTH._db.find_user_by(reset_token=reset_token)
-        if not user:
-            raise ValueError
-        hashed_password = AUTH._hash_password(password)
-        user.hashed_password = hashed_password
-        user.reset_token = None
-        return jsonify({"email": user.email, "message": "password updated"}), 200
-    except ValueError:
-        abort(403)
-
-
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port="5001")
