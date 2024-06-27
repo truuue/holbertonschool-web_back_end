@@ -65,3 +65,13 @@ class Auth:
             return None
 
         return user
+
+    def destroy_session(self, user_id: int) -> None:
+        """
+        Destroy the session ID for the user identified by the given user_id.
+        """
+        try:
+            self._db.update_user(user_id, {"session_id": None})
+        except Exception as e:
+            raise ValueError(
+                f"Failed to destroy session for user_id {user_id}") from e
