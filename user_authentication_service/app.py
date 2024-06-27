@@ -49,27 +49,27 @@ def login():
     return response
 
 
-@app.route("/sessions", methods=["DELETE"], strict_slashes=False)
+@app.route('/sessions', methods=['DELETE'], strict_slashes=False)
 def logout():
-    """ logout """
-    session_id = request.cookies.get("session_id")
-    user = AUTH.get_user_from_session_id(session_id)
-    if user:
-        AUTH.destroy_session(user.id)
-        return redirect("/", code=302)
-    return abort(403)
-
-
-@app.route("/profile", methods=["GET"], strict_slashes=False)
-def profile():
-    """ Get user profile information """
+    """ DELETE /sessions"""
     session_id = request.cookies.get('session_id')
     user = AUTH.get_user_from_session_id(session_id)
-
     if not session_id or not user:
         abort(403)
+    else:
+        AUTH.destroy_session(user.id)
+        return redirect('/')
 
-    return jsonify({"email": user.email})
+
+@app.route('/profile', methods=['GET'])
+def profile():
+    """ GET /profile"""
+    session_id = request.cookies.get('session_id')
+    user = AUTH.get_user_from_session_id(session_id)
+    if not session_id or not user:
+        abort(403)
+    else:
+        return jsonify({"email": user.email}), 200
 
 
 if __name__ == "__main__":
