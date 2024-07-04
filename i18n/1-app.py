@@ -20,8 +20,8 @@ babel = Babel(app)
 @app.route('/')
 def index():
     """ Home page """
-    return render_template('index.html')
+    return render_template('1-index.html')
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=5001)
