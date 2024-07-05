@@ -34,7 +34,7 @@ def index():
     """
     function that render index.html template
     """
-    return render_template("1-index.html")
+    return render_template("2-index.html")
 
 
 if __name__ == "__main__":
