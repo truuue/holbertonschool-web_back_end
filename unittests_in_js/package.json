@@ -1,12 +1,17 @@
 {
-  "devDependencies": {
-    "chai": "^5.1.0",
-    "mocha": "^10.3.0"
-  },
+  "name": "unittest_in_js",
+  "version": "1.0.0",
+  "description": "",
+  "main": "0-calcul.js",
   "scripts": {
-    "test": "mocha"
+    "test": "./node_modules/mocha/bin/mocha"
   },
-  "dependencies": {
-    "sinon": "^17.0.1"
+  "keywords": [],
+  "author": "Truuue",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^8.4.0",
+    "sinon": "^9.2.3"
   }
 }
