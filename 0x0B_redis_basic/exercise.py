@@ -10,7 +10,7 @@ def count_calls(method: Callable) -> Callable:
     """ Count calls decorator """
     @functools.wraps(method)
     def wrapper(self, *args, **kwargs):
-        """ Wrapper that increments that key every time the method is called """
+        """ Wrapper that increments key every time the method is called """
         key = method.__qualname__
         self._redis.incr(key)
 
@@ -34,11 +34,11 @@ def call_history(method: Callable) -> Callable:
     return wrapper
 
 
-def replay(self, method: Callable):
+def replay(method: Callable):
     """ Display the history of calls for a particular function. """
     input_key = f"{method.__qualname__}:inputs"
     output_key = f"{method.__qualname__}:outputs"
-    cache = self.method._redis
+    cache = method.__self__._redis
 
     inputs = cache.lrange(input_key, 0, -1)
     outputs = cache.lrange(output_key, 0, -1)
@@ -67,7 +67,8 @@ class Cache:
 
         return key
 
-    def get(self, key: str, fn: Optional[Callable] = None) -> Optional[Union[str, bytes, int, float]]:
+    def get(self, key: str, fn: Optional[Callable] = None
+            ) -> Optional[Union[str, bytes, int, float]]:
         """ Get data from Redis """
         data = self._redis.get(key)
 
