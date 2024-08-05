@@ -7,12 +7,30 @@ from typing import Union, Callable, Optional
 
 
 def count_calls(method: Callable) -> Callable:
+    """ Count calls decorator """
     @functools.wraps(method)
     def wrapper(self, *args, **kwargs):
+        """ Wrapper that increments that key every time the method is called """
         key = method.__qualname__
         self._redis.incr(key)
 
         return method(self, *args, **kwargs)
+    return wrapper
+
+
+def call_history(method: Callable) -> Callable:
+    """ Call history decorator """
+    @function.wraps(method)
+    def wrapper(self, *args, **kwargs):
+        """ Wrapper that stores the history of inputs and outputs """
+        input_key = f"{method.__qualname__}:inputs"
+        output_key = f"{method.__qualname__}:outputs"
+
+        self._redis.rpush(input_key, str(args))
+        result = method(self, *args, **kwargs)
+        self._redis.rpush(output_key, str(result))
+
+        return result
     return wrapper
 
 
