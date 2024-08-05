@@ -24,8 +24,11 @@ class Cache:
         """ Get data from Redis """
         data = self._redis.get(key)
 
-        if fn or data is None:
+        if data is None:
             return None
+        if fn is None:
+            return data
+
         return fn(data)
 
     def get_str(self, key: str) -> Optional[str]:
